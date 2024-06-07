@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -24,6 +25,11 @@ class _MyHomePageState extends State<MyHomePage> {
     minute: 5,
     second: 0
   );
+  var bigChillTime = (
+    hour: 0,
+    minute: 30,
+    second: 0
+  );
   bool _timeToWork = true;
   var nowTime = (
     hour: 0,
@@ -32,6 +38,9 @@ class _MyHomePageState extends State<MyHomePage> {
   );
   bool _timerStarted = false;
   String timerNowString = "00:00:00";
+  bool bigChillTimeNow = false;
+  int defaultBubbles = 4;
+  int endedBubbles = 0;
     // return nowTimeString;
   @override
   void initState() {
@@ -61,11 +70,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void setTimer() {
-    _timeToWork ? setState(() {
+    if (_timeToWork) {
+      setState(() {
       nowTime = workTime;
-    }) : setState(() {
+    });
+    }
+    if (!_timeToWork) {
+      setState(() {
       nowTime = chillTime;
     });
+    }
+    if (bigChillTimeNow) {
+      setState(() {
+      nowTime = bigChillTime;
+    });
+    }
   }
 
   String getTimerNow() => [
@@ -77,6 +96,23 @@ class _MyHomePageState extends State<MyHomePage> {
   void decrementTime() {
     if ((nowTime.second-1) == 0 && nowTime.minute == 0 && nowTime.hour == 0) {
       setState(() {
+        if (endedBubbles+1 > defaultBubbles && !bigChillTimeNow) {
+          bigChillTimeNow = true;
+          setTimer();
+          timerNowString = getTimerNow();
+          _timerStarted = false;
+          return;
+        }
+        if (endedBubbles+1 > defaultBubbles && bigChillTimeNow) {
+          bigChillTimeNow = false;
+          _timeToWork = true;
+          setTimer();
+          timerNowString = getTimerNow();
+          _timerStarted = false;
+          endedBubbles = 0;
+          return;
+        }
+        if (!_timeToWork) endedBubbles++;
         _timeToWork = !_timeToWork;
         setTimer();
         timerNowString = getTimerNow();
@@ -137,6 +173,38 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List<Widget>.generate(4, (pos) { 
+                        return Container(
+                          margin: EdgeInsets.all(5),
+                          width: 20.0,
+                          height: 20.0,
+                          decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: const Border(
+                                  top: BorderSide(
+                                    width: 2,
+                                    color: Colors.white
+                                  ),
+                                  bottom: BorderSide(
+                                    width: 2,
+                                    color: Colors.white
+                                  ),
+                                  left: BorderSide(
+                                    width: 2,
+                                    color: Colors.white
+                                  ),
+                                  right: BorderSide(
+                                    width: 2,
+                                    color: Colors.white
+                                  ),
+                                ),
+                                color: (endedBubbles > pos) ? Colors.white : Colors.transparent
+                          ),
+                        );
+                      })
+                    ),
                     Text(
                       timerNowString,
                       style: Theme.of(context).textTheme.displayLarge,
