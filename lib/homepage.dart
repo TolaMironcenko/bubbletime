@@ -19,18 +19,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Timer? _timer;
   var  workTime = (
     hour: 0,
-    minute: 0,
-    second: 5
+    minute: 55,
+    second: 0
   );
   var chillTime = (
     hour: 0,
-    minute: 0,
-    second: 10
+    minute: 5,
+    second: 0
   );
   var bigChillTime = (
     hour: 0,
-    minute: 0,
-    second: 20
+    minute: 30,
+    second: 0
   );
   bool _timeToWork = true;
   var nowTime = (
