@@ -158,6 +158,32 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void restartBubble() {
+    setState(() {
+      endedBubbles = 0;
+      _timeToWork = true;
+      nowTime = workTime;
+      timerNowString = getTimerNow();
+      _stopTimer();
+    });
+  }
+
+  void skipBubble() {
+    setState(() {
+      endedBubbles++;
+      _timeToWork = true;
+      nowTime = workTime;
+      timerNowString = getTimerNow();
+      _stopTimer();
+      if (endedBubbles == defaultBubbles) {
+        bigChillTimeNow = true;
+        nowTime = bigChillTime;
+        timerNowString = getTimerNow();
+      }
+      if (endedBubbles > defaultBubbles) endedBubbles = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -212,7 +238,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               ),
-            ) 
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextButton(
+                  onPressed: restartBubble, 
+                  child: Icon(CupertinoIcons.refresh),
+                ),
+                TextButton(
+                  onPressed: skipBubble,
+                  child: Icon(CupertinoIcons.forward),
+                )
+              ],
+            )
           ],
         ),
       ),
