@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -88,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   String getTimerNow() => [
-      ((nowTime.hour < 10) ? ("0${nowTime.hour}") : nowTime.hour.toString()),
+      // ((nowTime.hour < 10) ? ("0${nowTime.hour}") : nowTime.hour.toString()),
       ((nowTime.minute < 10) ? ("0${nowTime.minute}") : nowTime.minute.toString()),
       ((nowTime.second < 10) ? ("0${nowTime.second}") : nowTime.second.toString())
     ].join(":");
