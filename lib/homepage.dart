@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bubbletime/local_notification_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,21 +13,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  late final LocalNotificationService notificationService;
+
   Timer? _timer;
   var  workTime = (
     hour: 0,
-    minute: 55,
-    second: 0
+    minute: 0,
+    second: 5
   );
   var chillTime = (
     hour: 0,
-    minute: 5,
-    second: 0
+    minute: 0,
+    second: 10
   );
   var bigChillTime = (
     hour: 0,
-    minute: 30,
-    second: 0
+    minute: 0,
+    second: 20
   );
   bool _timeToWork = true;
   var nowTime = (
@@ -43,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    notificationService = LocalNotificationService();
+    notificationService.initialize();
     nowTime = _timeToWork ? workTime : chillTime;
     timerNowString = getTimerNow();
   }
@@ -115,8 +121,10 @@ class _MyHomePageState extends State<MyHomePage> {
         setTimer();
         timerNowString = getTimerNow();
         _timerStarted = false;
+
       });
       _timer?.cancel();
+      notificationService.showNotification(0, "Timer ended", "Go next bubble");
       return;
     }
     bool secondDown = (nowTime.second-1) == -1;
