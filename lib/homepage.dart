@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _timerStarted = true;
     });
-    print("timer started");
+    // print("timer started");
   }
 
   void _stopTimer() {
@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _timerStarted = false;
     });
-    print("timer stopped");
+    // print("timer stopped");
   }
 
   void setTimer() {
@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
         );
         timerNowString = getTimerNow();
       });
-      print(nowTime);
+      // print(nowTime);
       return;
     }
     if (secondDown) {
@@ -145,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
         );
         timerNowString = getTimerNow();
       });
-      print(nowTime);
+      // print(nowTime);
       return;
     } 
     setState(() {
